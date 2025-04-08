@@ -1,0 +1,5 @@
+jivani/*
+__pycache__/*
+
+t5/model.safetensors
+t5/spiece.model
