@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import torch
+import action_to_screen
 
 # Load the fine-tuned T5 model and tokenizer
 MODEL_PATH = "./t5"
@@ -28,6 +29,8 @@ async def interpret_command(command: str):
             if ':' in pair:
                 key, value = pair.strip().split(':', 1)
                 event_dict[key.strip()] = value.strip()
+        if(action_to_screen.ACTION_TO_SCREEN.get(event_dict["action"].split("_")[1])):
+            event_dict["screen"] = action_to_screen.ACTION_TO_SCREEN[event_dict["action"].split("_")[1]]
         return event_dict
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
